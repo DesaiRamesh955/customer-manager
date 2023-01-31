@@ -1,7 +1,6 @@
 import React from 'react'
 import { MuiPickersUtilsProvider, KeyboardDatePicker } from "@material-ui/pickers"
 import DateFnsutils from "@date-io/date-fns"
-import moment from "moment"
 const DatePicker = ({ name, label, value, dateVariant = null, onChange }) => {
 
 

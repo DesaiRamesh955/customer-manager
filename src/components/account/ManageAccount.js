@@ -7,6 +7,8 @@ import { auth } from 'firebase'
 import Controls from "./../../controls/Controls"
 import Notification from "./../../controls/Notification"
 import { useProgress } from "../../utils/useProgress"
+import useAccount from "./useAccount"
+import { SettingsInputSvideoTwoTone } from '@material-ui/icons'
 
 const useStyles = makeStyles(theme => ({
     paper: {
@@ -16,20 +18,11 @@ const useStyles = makeStyles(theme => ({
 const ManageAccount = () => {
 
 
-    const [user, setUser] = useState()
 
 
-    useEffect(() => {
-        if (auth().currentUser) {
-            db.collection("users")
-                .doc(auth().currentUser.uid)
-                .get()
-                .then(data => {
-                    setUser(data.data())
-                })
-        }
-    }, [auth().currentUser])
+    const {saveUserData,getUserData} = useAccount({auth,db})
 
+    
     const initialValue = {
         firstName: '',
         lastName: '',
@@ -38,20 +31,39 @@ const ManageAccount = () => {
     }
     const [notify, setNotify] = useState({ isOpen: false, message: '', type: '' })
 
-    const { input, setInput, error, setError, handleInput } = useForm(initialValue)
+    const { input, setInput, error, setError, handleInput,handleValidate } = useForm(initialValue)
     const { progressForm, setProgressForm } = useProgress()
+    const [user, setUser] = useState()
 
-    console.log("input", input)
+    useEffect(() => {
+        setProgressForm(true)
+
+        if (auth().currentUser) {
+           getUserData().then(res =>{
+            setUser(res.data())
+           })
+        }
+        setProgressForm(false)
+
+    }, [auth().currentUser])
 
 
     useEffect(() => {
-        if (user) {
-            setInput({
-                firstName: user.first_name,
-                lastName: user.last_name,
-                number: user.number,
-                companyName: user.companyName
-            })
+
+        let isRepeated = false
+
+        if(!isRepeated){
+            if (user) {
+                setInput({
+                    firstName: user.first_name,
+                    lastName: user.last_name,
+                    number: user.number,
+                    companyName: user.companyName
+                })
+            }
+        }
+        return () =>{
+            isRepeated = true
         }
     }, [user])
 
@@ -72,38 +84,31 @@ const ManageAccount = () => {
         return Object.values(temp).every(x => x == '')
     }
 
-
     const handleSubmit = (e) => {
 
         e.preventDefault()
+ 
+    
+
         if (validate()) {
             setProgressForm(true)
-            db.collection("users")
-                .doc(auth().currentUser.uid)
-                .set({
-                    first_name: input.firstName,
-                    last_name: input.lastName,
-                    number: input.number,
-                    companyName: input.companyName,
-                    update_at: new Date()
-                }, { merge: true })
-                .then(() => {
-                    setNotify({
-                        isOpen: true,
-                        message: 'Profile Updated successfullt !!',
-                        type: 'success'
-                    })
-                    setProgressForm(false)
+            saveUserData(input).then(() => {
+                setNotify({
+                    isOpen: true,
+                    message: 'Profile Updated successfullt !!',
+                    type: 'success'
                 })
-                .catch(err => {
-                    setNotify({
-                        isOpen: true,
-                        message: 'Profile Updated faield !!',
-                        type: 'error'
-                    })
-                    setProgressForm(false)
+            })
+            .catch(err => {
+                setNotify({
+                    isOpen: true,
+                    message: 'Profile Updated faield !!',
+                    type: 'error'
                 })
+               
+            })
         }
+        setProgressForm(false)
     }
 
 

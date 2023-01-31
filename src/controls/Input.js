@@ -7,7 +7,7 @@ const useStyles = makeStyles(theme => ({
     }
 }))
 
-const Input = ({ label, value, onChange, name, error = null, variant, ...other }) => {
+const Input = ({ label,rules, value, onChange, name, error = null, variant, ...other }) => {
 
 
 

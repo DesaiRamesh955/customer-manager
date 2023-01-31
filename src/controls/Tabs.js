@@ -27,7 +27,7 @@ export const Tabs = ({ items, indicatorColor = null, textColor = null, selectedT
             {...other}
         >
             {items.map(item => (
-                <Tab label={item.title} />
+                <Tab key={item.title} label={item.title} />
             ))}
         </MuiTabs >
     )
