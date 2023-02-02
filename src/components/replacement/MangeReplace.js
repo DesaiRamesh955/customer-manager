@@ -50,8 +50,6 @@ const MangeReplace = () => {
         }
 
 
-
-
     }, [auth().currentUser])
 
     useEffect(() => {
@@ -77,8 +75,7 @@ const MangeReplace = () => {
 
             <Tabs
                 selectedTab={selectedTab}
-                setSelectedTab={setSelectedTab}
-                centered
+                setSelectedTab={setSelectedTab} 
                 items={TabItem}
                 variant="scrollable"
             />

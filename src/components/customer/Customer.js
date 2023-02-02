@@ -142,7 +142,7 @@ const Customer = () => {
                         label="Search"
                         value={searchText}
                         onChange={(e) => setSearchText(e.target.value)} />
-                    <Typography>{searchText}</Typography>
+                    {/* <Typography>{searchText}</Typography> */}
                     {progressForm ? <Skeleton type="text" count={5} size={50} /> :
                         <>
                             <Table>

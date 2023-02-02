@@ -21,19 +21,25 @@ const App = () => {
 
 
   useEffect(() => {
+    let isRepeated  = false
 
-    auth().onAuthStateChanged((user) => {
-      if (user) {
-        dispatch({
-          type: userAction.SIGN_IN,
-          user: user
-        })
-      } else {
-        dispatch({
-          type: userAction.SIGN_OUT
-        })
-      }
-    })
+    if(!isRepeated){
+      auth().onAuthStateChanged((user) => {
+        if (user) {
+          dispatch({
+            type: userAction.SIGN_IN,
+            user: user
+          })
+        } else {
+          dispatch({
+            type: userAction.SIGN_OUT
+          })
+        }
+      })
+    }
+    return () => {
+      isRepeated = true;
+    }
 
   }, [userReducer.user])
 

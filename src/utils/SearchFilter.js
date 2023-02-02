@@ -1,4 +1,3 @@
-import { Grid, InputAdornment } from '@material-ui/core'
 import React, { useState } from 'react'
 import Controls from './../controls/Controls'
 export const useSearchFilter = () => {

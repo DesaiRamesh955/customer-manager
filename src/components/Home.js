@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import clsx from "clsx"
 import Dashboard from "./dashboard/Dashboard"
 import Customer from "./customer/Customer"
@@ -53,7 +53,6 @@ const useStyles = makeStyles((theme) => ({
             duration: theme.transitions.duration.enteringScreen,
         }),
         [theme.breakpoints.down("sm")]: {
-            marginLeft: 0,
             width: '100%'
         }
     },
@@ -144,6 +143,7 @@ const Home = () => {
     const history = useHistory()
     const [{ userReducer, progressReducer }, dispatch] = useStateValue()
 
+    
 
     const theme = useTheme();
     const [open, setOpen] = useState((window.innerWidth <= 972) ? false : true);
@@ -168,12 +168,9 @@ const Home = () => {
     }
 
     const handleActive = (e) => {
-        if (e.target.className == "MuiAvatar-img" && e.target.className != "settingCard") {
-            setActive(!active)
-        } else if (e.target.className != "settingCard") {
-            setActive(false)
-
-        }
+       
+            setActive(!active)  
+        
     }
 
     const signOut = () => {
@@ -190,7 +187,7 @@ const Home = () => {
     const classes = useStyles()
     return (
         <>
-            <div className={classes.root} onClick={handleActive}>
+            <div className={classes.root} onClick={ () => active==true ? handleActive() : null}>
                 <CssBaseline />
                 <AppBar
                     color="primary"
@@ -220,9 +217,9 @@ const Home = () => {
                             <Grid container justify="flex-end" item xs={1} style={{ position: "relative" }}>
                                 {
                                     (auth().currentUser && auth().currentUser.photoURL) ?
-                                        <Avatar src={auth().currentUser.photoURL} className={classes.avatar} onClick={handleActive} />
+                                        <Avatar isAvatar src={auth().currentUser.photoURL} className={classes.avatar} onClick={handleActive} />
                                         :
-                                        <Avatar className={classes.orange} className={classes.avatar} onClick={handleActive}>
+                                        <Avatar isAvatar className={clsx(classes.orange, classes.avatar)}  onClick={handleActive}>
                                             {auth().currentUser && `${auth().currentUser?.displayName?.split(' ')[0][0].toUpperCase()}${auth().currentUser?.displayName?.split(' ')[1][0].toUpperCase()}`}
                                         </Avatar>
                                 }

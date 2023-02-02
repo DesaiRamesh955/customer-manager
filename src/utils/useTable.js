@@ -1,4 +1,4 @@
-import { Table as MuiTable, TableRow, TableCell, TableHead, makeStyles, TablePagination, TableContainer, Paper } from '@material-ui/core'
+import { Table as MuiTable, TableRow, TableCell, TableHead, makeStyles, TablePagination, TableContainer } from '@material-ui/core'
 import React, { useState } from 'react'
 
 const useStyles = makeStyles(theme => ({

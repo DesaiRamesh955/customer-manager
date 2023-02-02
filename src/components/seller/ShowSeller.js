@@ -67,8 +67,9 @@ const ShowSeller = () => {
                         ))
                     )
                 ))
-            setProgressForm(false)
+           
         }
+         setProgressForm(false)
 
     }, [auth().currentUser])
 

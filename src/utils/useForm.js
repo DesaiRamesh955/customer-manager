@@ -8,8 +8,10 @@ export const useForm = (initialValue) => {
 
         const { name, value } = e.target
         setInput({ ...input, [name]: value })
+        
     }
 
+    
     return {
         input,
         setInput,
